@@ -31,3 +31,6 @@ docker run --rm \
 - `S3_BUCKET` Your AWS S3 bucket path *required*
 - `S3_PREFIX` The path prefix in your bucket (default: 'backup')
 - `S3_FILENAME` The filename (default: ${MYSQL_DATABASE})
+- `S3_OBJECT_ACL` Sets the ACL for the S3 object. (default: *no value*)
+  > If you use this parameter you must have the "s3:PutObjectAcl" permission included in your IAM policy.
+  > See https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl

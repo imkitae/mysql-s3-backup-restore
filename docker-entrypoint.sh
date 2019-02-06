@@ -43,11 +43,21 @@ restore_db()
 
 upload_to_s3()
 {
-    echo "Uploading ${DUMP_PATH} on S3..."
-    if ! aws s3 mv ${DUMP_PATH} ${S3_PATH}
+    if [[ -z "${S3_OBJECT_ACL}" ]]
     then
-        echo "Error uploading ${DUMP_PATH} on S3" >&2
-        exit 1
+        echo "Uploading ${DUMP_PATH} on S3..."
+        if ! aws s3 mv ${DUMP_PATH} ${S3_PATH}
+        then
+            echo "Error uploading ${DUMP_PATH} on S3" >&2
+            exit 1
+        fi
+    else
+        echo "Uploading ${DUMP_PATH} on S3 using ACL=${S3_OBJECT_ACL}..."
+        if ! aws s3 mv ${DUMP_PATH} ${S3_PATH} --acl=${S3_OBJECT_ACL}
+        then
+            echo "Error uploading ${DUMP_PATH} on S3 using ACL=${S3_OBJECT_ACL}" >&2
+            exit 1
+        fi
     fi
 
     echo "Upload finished: ${DUMP_PATH} -> ${S3_PATH}"
