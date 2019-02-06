@@ -17,6 +17,7 @@ docker run --rm \
     -e MYSQL_DATABASE=my_database \
     -e S3_BUCKET=my-bucket \
     -e S3_PREFIX=backup \
+    -e S3_OBJECT_ACL=private \
     ridibooks/mysql-s3-backup-restore \
     backup # .. or restore
 ```
@@ -30,7 +31,7 @@ docker run --rm \
 - `MYSQLDUMP_OPTIONS` mysqldump options (default: --quote-names --quick --add-drop-table --add-locks --allow-keywords --disable-keys --extended-insert --single-transaction --create-options --comments --net_buffer_length=16384)
 - `S3_BUCKET` Your AWS S3 bucket path *required*
 - `S3_PREFIX` The path prefix in your bucket (default: 'backup')
-- `S3_FILENAME` The filename (default: ${MYSQL_DATABASE})
+- `S3_FILENAME` The filename (default: ${MYSQL_DATABASE}.sql.gz)
 - `S3_OBJECT_ACL` Sets the ACL for the S3 object. (default: *no value*)
   > If you use this parameter you must have the "s3:PutObjectAcl" permission included in your IAM policy.
   > See https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
